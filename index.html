@@ -4,93 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Affirmations</title>
-
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 body {
-  margin: 0;
+  margin:0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  transition: 0.3s;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  transition:0.3s;
 }
 
-.dark {
-  background: #121212;
+body.dark{
+  background: linear-gradient(135deg,#1f1f1f,#2c2c2c);
 }
 
-.container {
-  text-align: center;
-  width: 90%;
-  max-width: 400px;
+.container{
+  text-align:center;
+  width:90%;
+  max-width:420px;
 }
 
-.card {
+.card{
   background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  backdrop-filter: blur(15px);
+  padding:30px;
+  border-radius:25px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.25);
+  transition: transform 0.3s;
 }
 
-h1 {
-  margin-bottom: 10px;
+.card:hover{
+  transform: translateY(-5px);
 }
 
-#affirmation {
-  font-size: 20px;
-  margin: 20px 0;
-  min-height: 70px;
+h1{
+  margin-bottom:15px;
+  font-weight:600;
+  font-size:1.8rem;
+}
+
+#affirmation{
+  font-size:20px;
+  margin:25px 0;
+  min-height:80px;
   animation: fade 0.5s ease;
 }
 
-@keyframes fade {
-  from {opacity: 0;}
-  to {opacity: 1;}
+@keyframes fade{
+  from{opacity:0;}
+  to{opacity:1;}
 }
 
-button {
-  margin: 6px;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 13px;
-  background: white;
-  color: #333;
-  transition: 0.3s;
+button{
+  margin:6px;
+  padding:12px 18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  background:#fff;
+  color:#333;
+  transition: transform 0.2s, background 0.3s;
 }
 
-button:hover {
-  transform: scale(1.05);
+button:hover{
+  transform:scale(1.08);
+  background:#f1f1f1;
 }
 
-.toggle {
-  margin-top: 10px;
-  font-size: 12px;
-  cursor: pointer;
+.toggle{
+  margin-top:12px;
+  font-size:13px;
+  cursor:pointer;
+  opacity:0.9;
 }
 
-.ad {
-  margin-top: 15px;
-  background: rgba(255,255,255,0.2);
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 12px;
+.ad{
+  margin-top:20px;
+  background: rgba(255,255,255,0.15);
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  color:#fff;
+  text-align:center;
+}
+
+@media(max-width:400px){
+  h1{font-size:1.5rem;}
+  #affirmation{font-size:18px;}
+  button{padding:10px 14px;font-size:13px;}
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
   <div class="card">
     <h1>Daily Affirmations ✨</h1>
-
-    <div id="affirmation">Click below to get inspired 💪</div>
+    <div id="affirmation">Click "New" to get inspired 💪</div>
 
     <button onclick="newAffirmation()">New</button>
     <button onclick="copyText()">Copy</button>
@@ -99,16 +115,14 @@ button:hover {
 
     <div class="toggle" onclick="toggleMode()">🌙 Toggle Dark Mode</div>
 
-    <!-- Adsterra Banner -->
     <div class="ad">
-      Your Ad Here
+      Your Ad Here (AdMob / Adsterra Compatible)
     </div>
-
   </div>
 </div>
 
 <script>
-const affirmations = [
+const affirmations=[
 "I am confident and strong 💪","I believe in myself ✨","I can achieve anything 🚀",
 "I am improving every day 📈","I attract success 💰","I am focused 🔥",
 "I deserve happiness 😊","I am unstoppable 💯","I am powerful ⚡",
@@ -121,44 +135,38 @@ const affirmations = [
 "I love myself ❤️","I stay focused 🎯","I keep learning 📖"
 ];
 
-function newAffirmation() {
-  const random = affirmations[Math.floor(Math.random() * affirmations.length)];
-  document.getElementById("affirmation").innerText = random;
+function newAffirmation(){
+  const random=affirmations[Math.floor(Math.random()*affirmations.length)];
+  const affirmEl=document.getElementById("affirmation");
+  affirmEl.style.opacity=0;
+  setTimeout(()=>{affirmEl.innerText=random; affirmEl.style.opacity=1;},200);
 }
 
-function copyText() {
-  const text = document.getElementById("affirmation").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Copied!");
+function copyText(){
+  const text=document.getElementById("affirmation").innerText;
+  navigator.clipboard.writeText(text).then(()=>{alert("Copied!");});
 }
 
-function shareText() {
-  const text = document.getElementById("affirmation").innerText;
-  if (navigator.share) {
-    navigator.share({ text: text });
-  } else {
-    alert("Sharing not supported");
-  }
+function shareText(){
+  const text=document.getElementById("affirmation").innerText;
+  if(navigator.share){navigator.share({text});}
+  else{alert("Sharing not supported");}
 }
 
-function toggleMode() {
+function toggleMode(){
   document.body.classList.toggle("dark");
 }
 
-function saveFav() {
-  const text = document.getElementById("affirmation").innerText;
-  localStorage.setItem("fav", text);
+function saveFav(){
+  const text=document.getElementById("affirmation").innerText;
+  localStorage.setItem("fav",text);
   alert("Saved!");
 }
 
-// Load saved
-window.onload = () => {
-  const saved = localStorage.getItem("fav");
-  if (saved) {
-    document.getElementById("affirmation").innerText = saved;
-  }
+window.onload=()=>{
+  const saved=localStorage.getItem("fav");
+  if(saved)document.getElementById("affirmation").innerText=saved;
 }
 </script>
-
 </body>
 </html>
